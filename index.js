@@ -26,9 +26,9 @@ bot.on('message', (msg) => {
     result.push(msg.text)
     console.log(questions.lastIndexOf(next))
     if (questions.lastIndexOf(next) < 0){
-        checkAnswer(msg, questions[questions.length-1])
+        answers = answers + checkAnswer(msg, questions[questions.length-1])?1:0
     }else{
-        checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])
+        answers = answers + checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])?1:0
     }
     console.log("после")
     if (answers === (questions.filter(q => q.type === 'answer').length)) {
@@ -36,6 +36,9 @@ bot.on('message', (msg) => {
         bot.sendMessage(msg.from.id, "Тестовое задание: 'ссылка'\nВыполненное задание отправить на почту\nПочта: @mail")
         generateXML(result, msg);
         return 
+    }
+    if (questions.length === result.length){
+        generateXML(result, msg);
     }
     newQuestion(msg, next)
 })
@@ -72,7 +75,7 @@ async function generateXML(result, msg) {
     worksheet.cell(5, 1).string('Опыт работы');
     worksheet.cell(5, 2).string('Есть');
     worksheet.cell(6, 1).string('Уровень английского');
-    worksheet.cell(6, 2).string(result[1]);
+    worksheet.cell(6, 2).string(result[7]);
     worksheet.cell(7, 1).string('Уровень владения пк');
     worksheet.cell(7, 2).string(result[2]);
     worksheet.cell(8, 1).string('Объявление');
@@ -95,12 +98,12 @@ async function generateXML(result, msg) {
 
 function checkAnswer(msg, idel) {
     if (idel.type === 'answer') {
-        if (idel.right_answer === msg.text) { //1===1
+        if (idel.right_answer.includes(msg.text)) { //1===1
             bot.sendMessage(msg.from.id, '✅');
-            answers++
-            console.log(answers);
+            return true
         } else {
             bot.sendMessage(msg.from.id, '❌');
+            return false
         }
     }
 }

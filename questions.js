@@ -3,8 +3,8 @@ let questions = [
         type: 'text',
         title: 'Ваши ФИО',
     },
-    {
-        type: 'noanswer',
+   /*  {
+       type: 'noanswer',
         title: 'Оцените ваш уровень английского',
         buttons: [
             [{text: 'A1'}],
@@ -14,10 +14,10 @@ let questions = [
             [{text: 'C1'}],
             [{text: 'C2'}],
         ],
-    },
+    },*/
     {
         type: 'noanswer',
-        title: 'Оцените ваш уровень владения ПК"',
+        title: 'Оцените ваш уровень владения ПК',
         buttons: [
             [{text: '5'}],
             [{text: '4'}],
@@ -43,7 +43,7 @@ let questions = [
             [{text: 'Да'}],
             [{text: 'Нет'}],
         ],
-        right_answer: 'Да',
+        right_answer: ['Да'],
     },
     {
         type: 'answer',
@@ -52,7 +52,7 @@ let questions = [
             [{text: 'Да'}],
             [{text: 'Нет'}],
         ],
-        right_answer: 'Да',
+        right_answer: ['Да'],
     },
     {
         type: 'answer',
@@ -61,7 +61,7 @@ let questions = [
             [{text: 'Да'}],
             [{text: 'Нет'}],
         ],
-        right_answer: 'Да',
+        right_answer: ['Да'],
     },
     {
         type: 'answer',
@@ -70,8 +70,72 @@ let questions = [
             [{text: 'Да'}],
             [{text: 'Нет'}],
         ],
-        right_answer: 'Да',
+        right_answer: ['Да'],
     },
+    {
+        type: 'answer',
+        title: 'Оцените ваш уровень английского',
+        buttons: [
+            [{text: 'A1'}],
+            [{text: 'A2'}],
+            [{text: 'B1'}],
+            [{text: 'B2'}],
+            [{text: 'C1'}],
+            [{text: 'C2'}],
+        ],
+        right_answer: ['B2', 'C1', 'C2'],
+    },
+    {
+        type: 'answer',
+        title: 'Mila would never cheat … an exam, shes too honest for that.',
+        buttons: [
+            [{text: 'in'}],
+            [{text: 'to'}],
+            [{text: 'off'}],
+        ],
+        right_answer: ['off'],
+    },
+    {
+        type: 'answer',
+        title: 'Greg is really satisfied … his new college course, so he has given up the idea of dropping out.',
+        buttons: [
+            [{text: 'at'}],
+            [{text: 'of'}],
+            [{text: 'with'}],
+        ],
+        right_answer: ['with'],
+    },
+    {
+        type: 'answer',
+        title: 'Ann is often accused … her promises.',
+        buttons: [
+            [{text: 'she broke'}],
+            [{text: 'of breaking'}],
+            [{text: 'to have broken'}],
+        ],
+        right_answer: ['to have broken'],
+    },
+    {
+        type: 'answer',
+        title: 'They never have time to go … the details of any plans, they can only give general ideas.',
+        buttons: [
+            [{text: 'through'}],
+            [{text: 'into'}],
+            [{text: 'to'}],
+        ],
+        right_answer: ['into'],
+    },
+    {
+        type: 'answer',
+        title: 'Olivia tried … her coffee with cream instead of milk, and she liked it very much.',
+        buttons: [
+            [{text: 'to take'}],
+            [{text: 'taking'}],
+            [{text: 'to taking'}],
+        ],
+        right_answer: ['taking'],
+    },
+
 
 ];
 module.exports={questions};
