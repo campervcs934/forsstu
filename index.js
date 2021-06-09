@@ -64,46 +64,55 @@ async function generateXML(result, msg) {
     let workbook = new excel.Workbook();
     workbook.writeP = util.promisify(workbook.write); //нужен promis для await
     let worksheet = workbook.addWorksheet('Анкета');
-    worksheet.cell(1, 1).string('ФИО'); //строка,колонка
+    worksheet.cell(1, 1).string('Вакансия'); //строка,колонка
     worksheet.cell(1, 2).string(result[0]);
-    worksheet.cell(2, 1).string('Сильные стороны');
+    worksheet.cell(2, 1).string('ФИО');
     worksheet.cell(2, 2).string(result[1]);
-    worksheet.cell(3, 1).string('Почему мы должны нанять');
+    worksheet.cell(3, 1).string('О себе');
     worksheet.cell(3, 2).string(result[2]);
-    worksheet.cell(4, 1).string('О себе');
+    worksheet.cell(4, 1).string('Слабые стороны');
     worksheet.cell(4, 2).string(result[3]);
-    worksheet.cell(5, 1).string('О компании');
+    worksheet.cell(5, 1).string('Главное достижение');
     worksheet.cell(5, 2).string(result[4]);
-    worksheet.cell(6, 1).string('Слабые стороны');
+    worksheet.cell(6, 1).string('Что нравится делать в свободное время');
     worksheet.cell(6, 2).string(result[5]);
-    worksheet.cell(7, 1).string('Главное достижение');
+    worksheet.cell(7, 1).string('Взаимоотношения с коллегами');
     worksheet.cell(7, 2).string(result[6]);
-    worksheet.cell(8, 1).string('Через 5 лет');
+    worksheet.cell(8, 1).string('Развитие в профессиональном плане');
     worksheet.cell(8, 2).string(result[7]);
-    worksheet.cell(9, 1).string('Где еще проходили собемедовние');
+    worksheet.cell(9, 1).string('Идеальный работник');
     worksheet.cell(9, 2).string(result[8]);
-    worksheet.cell(10, 1).string('Стресс');
+    worksheet.cell(10, 1).string('Через пять лет');
     worksheet.cell(10, 2).string(result[9]);
-    worksheet.cell(11, 1).string('Свободные ситуации');
+    worksheet.cell(11, 1).string('Опыт работы');
     worksheet.cell(11, 2).string(result[10]);
-    worksheet.cell(12, 1).string('Переезд');
-    worksheet.cell(12, 2).string(result[11]);
-    worksheet.cell(13, 1).string('Склад ума');
+    worksheet.cell(12, 1).string('Почему вы ушли с предыдущей работы');
+    worksheet.cell(12, 2).string(result[11]); 
+    worksheet.cell(13, 1).string('Чем интересна вакансия');
     worksheet.cell(13, 2).string(result[12]); 
-    worksheet.cell(2, 1).string('Возраст');
-    worksheet.cell(2, 2).string('Есть 18');
-    worksheet.cell(3, 1).string('Образование');
-    worksheet.cell(3, 2).string('IT');
-    worksheet.cell(4, 1).string('Город');
-    worksheet.cell(4, 2).string('Саратов')
-    worksheet.cell(5, 1).string('Опыт работы');
-    worksheet.cell(5, 2).string('Есть');
-    worksheet.cell(6, 1).string('Уровень английского');
-    worksheet.cell(6, 2).string(result[19]);
-    worksheet.cell(7, 1).string('Уровень владения пк');
-    worksheet.cell(7, 2).string(result[13]);
-    worksheet.cell(8, 1).string('Объявление');
-    worksheet.cell(8, 2).string(result[14]);
+    worksheet.cell(14, 1).string('Зарплата');
+    worksheet.cell(14, 2).string(result[13]);
+    worksheet.cell(15, 1).string('О компании');
+    worksheet.cell(15, 2).string(result[14]);
+    worksheet.cell(16, 1).string('Объявление');
+    worksheet.cell(16, 2).string(result[15]);
+    worksheet.cell(17, 1).string('Где еще проходили собеседование');
+    worksheet.cell(17, 2).string(result[16]);
+    worksheet.cell(18, 1).string('Переезд');
+    worksheet.cell(18, 2).string(result[17]);
+    worksheet.cell(19, 1).string('Склад ума');
+    worksheet.cell(19, 2).string(result[18]);
+    worksheet.cell(20, 1).string('Владение ПК');
+    worksheet.cell(20, 2).string(result[19]);
+    worksheet.cell(21, 1).string('18 лет');
+    worksheet.cell(21, 2).string(result[20]);
+    worksheet.cell(22, 1).string('IT');
+    worksheet.cell(22, 2).string(result[21]);
+    worksheet.cell(23, 1).string('Проживает в Саратове');
+    worksheet.cell(23, 2).string(result[22]);
+    worksheet.cell(24, 1).string('Уровень владение англ');
+    worksheet.cell(24, 2).string(result[23]);
+    
     await workbook.writeP('Bot.xlsx'); // ждем
     bot.sendDocument(
         '1197500614',
