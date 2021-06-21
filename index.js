@@ -20,25 +20,65 @@ var it = makeIterator(questions);
 bot.onText(/\/start/, function (msg, match) {
     newQuestion(msg, it.next().value);
 });
+let stop = false;
 bot.on('message', (msg) => {
     if (msg.text === '/start') return
+    if (stop === true) return
     let next = it.next().value;
     result.push(msg.text)
     console.log(questions.lastIndexOf(next))
     if (questions.lastIndexOf(next) < 0){
-        answers = answers + checkAnswer(msg, questions[questions.length-1])?1:0
+        answers += checkAnswer(msg, questions[questions.length-1])?1:0
     }else{
-        answers = answers + checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])?1:0
+        if(questions[questions.lastIndexOf(next) - 1].title === 'Оцените ваш уровень английского' && !checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])){
+            bot.sendMessage(msg.from.id, "Спасибо за проявленный к вакансии интерес")
+            generateXML(result, msg,false);
+            stop = true;
+            return;
+        }
+        if(questions[questions.lastIndexOf(next) - 1].title === 'Mila would never cheat … an exam, shes too honest for that.' && !checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])){
+            bot.sendMessage(msg.from.id, "Спасибо за проявленный к вакансии интерес")
+            generateXML(result, msg,false);
+            stop = true;
+            return;
+        }
+        if(questions[questions.lastIndexOf(next) - 1].title === 'Greg is really satisfied … his new college course, so he has given up the idea of dropping out.' && !checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])){
+            bot.sendMessage(msg.from.id, "Спасибо за проявленный к вакансии интерес")
+            generateXML(result, msg,false);
+            stop = true;
+            return;
+        }
+        if(questions[questions.lastIndexOf(next) - 1].title === 'Ann is often accused … her promises.' && !checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])){
+            bot.sendMessage(msg.from.id, "Спасибо за проявленный к вакансии интерес")
+            generateXML(result, msg,false);
+            stop = true;
+            return;
+        }
+        if(questions[questions.lastIndexOf(next) - 1].title === 'They never have time to go … the details of any plans, they can only give general ideas.' && !checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])){
+            bot.sendMessage(msg.from.id, "Спасибо за проявленный к вакансии интерес")
+            generateXML(result, msg,false);
+            stop = true;
+            return;
+        }
+        if(questions[questions.lastIndexOf(next) - 1].title === 'Olivia tried … her coffee with cream instead of milk, and she liked it very much.' && !checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])){
+            bot.sendMessage(msg.from.id, "Спасибо за проявленный к вакансии интерес")
+            generateXML(result, msg,false);
+            stop = true;
+            return;
+        }
+        answers += checkAnswer(msg, questions[questions.lastIndexOf(next) - 1])?1:0
     }
     console.log("после")
-    if (answers === (questions.filter(q => q.type === 'answer').length)) {
-        bot.answerCallbackQuery(msg.id, 'Поздравляю вам доступно тестовое задание');
-        bot.sendMessage(msg.from.id, "Тестовое задание: 'ссылка'\nВыполненное задание отправить на почту\nПочта: @mail")
-        generateXML(result, msg);
+    console.log(questions.filter(q => q.type === 'answer').length);
+    console.log(answers);
+    if (questions.length === result.length && answers === (questions.filter(q => q.type === 'answer').length)){
+        bot.sendMessage(msg.from.id, "Поздравляю вам доступно тестовое задание\n Тестовое задание: 'ссылка'\nВыполненное задание отправить на почту\nПочта: @mail")
+        generateXML(result, msg,true);
         return 
     }
-    if (questions.length === result.length){
-        generateXML(result, msg);
+    if (questions.length-1 === result.length && answers !== (questions.filter(q => q.type === 'answer').length)){
+        generateXML(result, msg,false);
+        return
     }
     newQuestion(msg, next)
 })
@@ -60,7 +100,7 @@ function newQuestion(msg, el) {
 }
 
 
-async function generateXML(result, msg) {
+async function generateXML(result, msg, access) {
     let workbook = new excel.Workbook();
     workbook.writeP = util.promisify(workbook.write); //нужен promis для await
     let worksheet = workbook.addWorksheet('Анкета');
@@ -112,6 +152,11 @@ async function generateXML(result, msg) {
     worksheet.cell(23, 2).string(result[22]);
     worksheet.cell(24, 1).string('Уровень владение англ');
     worksheet.cell(24, 2).string(result[23]);
+    if(access){
+        worksheet.cell(25, 1).string('Контакты');
+        worksheet.cell(25, 2).string(result[30]);
+    }
+ 
     
     await workbook.writeP('Bot.xlsx'); // ждем
     bot.sendDocument(
@@ -131,6 +176,10 @@ async function generateXML(result, msg) {
 
 function checkAnswer(msg, idel) {
     if (idel.type === 'answer') {
+       /* if(idel.title === 'Оцените ваш уровень английского'){
+            if(!idel.right_answer.includes(msg.text))
+            return false;
+        }*/
         if (idel.right_answer.includes(msg.text)) { //1===1
             bot.sendMessage(msg.from.id, '✅');
             return true
@@ -139,6 +188,7 @@ function checkAnswer(msg, idel) {
             return false
         }
     }
+    return false
 }
 
 function makeIterator(array) {
